@@ -1,0 +1,55 @@
+[gd_scene load_steps=2 format=2]
+
+[sub_resource type="GDScript" id=1]
+script/source = "extends Node2D
+
+func _ready():
+	$\"Button\".connect(\"pressed\", self, \"do_it\")
+
+func do_it():
+	var t = $\"TextEdit\".text
+	var query = \"(\"
+	var first_one = true
+	var count = 0
+	var queries = 0
+	while true:
+		var line = t.substr(0, t.find(\"\\n\"))
+		if t.find(\"\\n\") == -1 or count >= 2:
+			break
+		t = t.substr(t.find(\"\\n\") + 1, -1)
+
+		if line.substr(0, 13) == \"			<obj na=\\\"\" and line.find(\"na=\\\"sourceID\\\" va=\\\"\") == -1:
+			count += 1
+		elif line.find(\"na=\\\"sourceID\\\" va=\\\"\") != -1:
+			if first_one:
+				query += line.substr(line.find(\"va=\") + 4, line.find(\"\\\"/>\") - 4 - line.find(\"va=\"))
+			else:
+				query += \" OR \" + line.substr(line.find(\"va=\") + 4, line.find(\"\\\"/>\") - 4 - line.find(\"va=\"))
+			queries += 1
+			first_one = false
+	query += \")\"
+	OS.set_clipboard(query)
+	$\"RichTextLabel\".text = \"IDs found: \" + str(queries) + \"\\n\" + query + \"\\nQuery copied to clipboard!\"
+"
+
+[node name="Main" type="Node2D"]
+script = SubResource( 1 )
+
+[node name="TextEdit" type="TextEdit" parent="."]
+margin_left = 1.0
+margin_right = 1022.0
+margin_bottom = 286.0
+
+[node name="Button" type="Button" parent="."]
+margin_left = 9.0
+margin_top = 292.0
+margin_right = 181.0
+margin_bottom = 327.0
+text = "Get Source ID Query"
+
+[node name="RichTextLabel" type="RichTextLabel" parent="."]
+margin_left = 10.0
+margin_top = 341.0
+margin_right = 1010.0
+margin_bottom = 1621.0
+text = "Hey, have a nice day!"
