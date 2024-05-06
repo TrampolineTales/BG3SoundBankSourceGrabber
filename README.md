@@ -10,6 +10,7 @@ This is a tool that forms search query strings of `CAkSound` entries in `XML` fi
 ## Necessary Programs
 
 * [wwiser](https://github.com/bnnm/wwiser) to convert a `BNK` file to an `XML` file
+* [Python](https://www.python.org/) to run wwiser.
 * Your text editor of choice (I recommend [Notepad++](https://notepad-plus-plus.org/))
 * To play the `WEM` files, [foobar2000](https://www.foobar2000.org/download) plus [this vgmstream component](https://www.foobar2000.org/components/view/foo_input_vgmstream).
 
